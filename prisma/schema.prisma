@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RideStatus {
+  REQUESTED
+  MATCHING
+  ASSIGNED
+  STARTED
+  COMPLETED
+  CANCELLED
+  EXPIRED
+}
+
+enum DriverStatus {
+  AVAILABLE
+  RESERVED
+  BUSY
+  OFFLINE
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESSFUL
+  FAILED
+}
+
+model Driver {
+  id        String       @id @default(uuid())
+  name      String
+  phone     String
+  email     String       @unique
+  status    DriverStatus @default(AVAILABLE)
+  Adress    String       @default("")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  rides Ride[]
+}
+
+model Ride {
+  id          String     @id @default(uuid())
+  riderId     String
+  driverId    String?
+  status      RideStatus @default(REQUESTED)
+  pickupLat   Float
+  pickupLng   Float
+  dropoffLat  Float
+  dropoffLng  Float
+  fareCents   Int?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  driver        Driver?        @relation(fields: [driverId], references: [id])
+  payments      Payment[]
+  tripLocations TripLocation[]
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  rideId    String
+  amount    Int
+  currency  String        @default("USD")
+  status    PaymentStatus @default(PENDING)
+  provider  String        @default("mock-psp")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  ride Ride @relation(fields: [rideId], references: [id])
+}
+
+model TripLocation {
+  id        String   @id @default(uuid())
+  rideId    String?
+  driverId  String
+  latitude  Float
+  longitude Float
+  createdAt DateTime @default(now())
+
+  ride Ride? @relation(fields: [rideId], references: [id])
+
+  @@index([driverId, createdAt])
+  @@index([rideId, createdAt])
+}
