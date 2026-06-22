@@ -12,8 +12,8 @@ type RideMatchingJob = {
 };
 
 const BID_TOKEN_EXPIRY = 10;
-const MATCHING_WINDOW_MS = 0.5 * 60 * 1000;
-const MATCH_RETRY_DELAY_MS = 10000;
+const MATCHING_WINDOW_MS = 1 * 60 * 1000;
+const MATCH_RETRY_DELAY_MS = 15000;
 const BID_TOKEN_SECRET = process.env.JWT_BID_TOKEN;
 
 export const rideMatchingWorker = new Worker(
