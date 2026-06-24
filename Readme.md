@@ -2,6 +2,13 @@
 
 Backend service for a ride-hailing application built with Node.js, TypeScript, Express, PostgreSQL, Redis, BullMQ, and Socket.IO.
 
+
+## Demo Video
+
+[![Watch the demo](https://www.loom.com/share/6349816127b44fdfb083d63faa2e6ecb)](https://www.loom.com/share/6349816127b44fdfb083d63faa2e6ecb)
+
+[![Watch the architecture flow](https://www.loom.com/share/1483b3177e6a4f70b9a7c7daa36dd5a3)](https://www.loom.com/share/1483b3177e6a4f70b9a7c7daa36dd5a3)
+
 ## Tech Stack
 
 * Node.js
